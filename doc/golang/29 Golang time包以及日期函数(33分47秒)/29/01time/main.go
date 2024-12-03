@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-//1、打印当前日期
+// 1、打印当前日期
 func main() {
 
 	timeObj := time.Now()

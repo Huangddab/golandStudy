@@ -20,9 +20,11 @@ func main() {
 		Name:   "李四",
 		Sno:    "s0001",
 	}
-	fmt.Printf("%#v\n", s1) //main.Student{ID:12, Gender:"男", Name:"李四", Sno:"s0001"}
-
+	fmt.Printf("%#v\n", s1)
+	// main.Student{ID:12, Gender:"男", Name:"李四", Sno:"s0001"}
 	jsonByte, _ := json.Marshal(s1)
+	fmt.Printf("%#v\n", jsonByte)
+	// []byte{ xxxxx }
 	jsonStr := string(jsonByte)
 	fmt.Printf("%v", jsonStr) //{"ID":12,"Gender":"男","Name":"李四","Sno":"s0001"}
 }

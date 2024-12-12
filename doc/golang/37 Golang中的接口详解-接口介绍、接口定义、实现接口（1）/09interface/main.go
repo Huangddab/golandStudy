@@ -2,7 +2,8 @@ package main
 
 import "fmt"
 
-//定义一个Animal的接口，Animal中定义两个方法，分别是SetName和GetName。分别让Dog结构体和Cat结构体实现这个方法
+//定义一个Animal的接口，Animal中定义两个方法，
+// 分别是SetName和GetName。分别让Dog结构体和Cat结构体实现这个方法
 
 type Animaler interface {
 	SetName(string)
@@ -35,9 +36,11 @@ func (c Cat) GetName() string {
 func main() {
 
 	//Dog实现Animal的接口
+	
 	d := &Dog{
 		Name: "小黑",
 	}
+	
 	var d1 Animaler = d
 	fmt.Println(d1.GetName())
 	d1.SetName("阿奇")

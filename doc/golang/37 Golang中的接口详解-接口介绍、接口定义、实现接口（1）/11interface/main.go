@@ -30,8 +30,8 @@ func (d Dog) GetName() string {
 func main() {
 
 	//Dog实现Animal的接口
-	d := &Dog{
-		Name: "小黑",
+	d := &Dog{ 
+		Name: "小黑", 
 	}
 
 	var d1 Animaler = d //表示让Dog实现Animaler这个接口

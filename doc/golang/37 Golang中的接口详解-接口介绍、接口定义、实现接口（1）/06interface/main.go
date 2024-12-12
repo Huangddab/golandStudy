@@ -2,21 +2,23 @@ package main
 
 import "fmt"
 
+// 接口
 type Usber interface {
 	start()
 	stop()
 }
 
-//电脑
+//电脑 结构体
 type Computer struct {
 }
 
+// 电脑的工作方法 接受一个usb接口类型的参数
 func (c Computer) work(usb Usber) {
 	//要判断usb的类型
-	if _, ok := usb.(Phone); ok { //类型断言
-		usb.start()
+	if _, ok := usb.(Phone); ok { // 判断usb的类型是否是Phone类型
+		usb.start() //调用手机的方法
 	} else {
-		usb.stop()
+		usb.stop() //调用相机的方法
 	}
 
 }
@@ -47,13 +49,13 @@ func (p Camera) stop() {
 
 func main() {
 
-	var computer = Computer{}
-	var phone = Phone{
+	var computer = Computer{} //实例化一个电脑类型的变量
+	var phone = Phone{        //实例化一个手机类型的变量
 		Name: "小米手机",
 	}
-	var camera = Camera{}
+	var camera = Camera{} //实例化一个照相机类型的变量
 
-	computer.work(phone)
-	computer.work(camera)
+	computer.work(phone)  //电脑工作  传入一个手机类型的变量  实现了Usber接口的方法  调用了手机的方法
+	computer.work(camera) //传入一个照相机类型的变量  实现了Usber接口的方法  调用了照相机的方法
 
 }

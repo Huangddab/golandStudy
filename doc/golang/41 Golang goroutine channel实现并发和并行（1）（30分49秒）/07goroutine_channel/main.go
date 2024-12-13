@@ -22,8 +22,8 @@ func main() {
 	ch <- 56
 	ch <- 66
 	//4、打印管道的长度和容量
-	fmt.Printf("值：%v 容量：%v 长度%v\n", ch, cap(ch), len(ch)) //值：0xc0000d0080 容量：3 长度2
-
+	fmt.Printf("值：%v 容量：%v 长度%v\n", ch, cap(ch), len(ch))
+	//值：0xc0000d0080 容量：3 长度2
 	// 5、管道的类型（引用数据类型）
 
 	ch1 := make(chan int, 4)
@@ -45,6 +45,7 @@ func main() {
 	// ch6 := make(chan int, 1)
 	// ch6 <- 34
 	// ch6 <- 64 //all goroutines are asleep - deadlock!
+	// 管道的长度是1，不能存放2个数据 这样就会发生阻塞
 
 	// 在没有使用协程的情况下，如果我们的管道数据已经全部取出，再取就会报告 deadlock
 	// ch7 := make(chan string, 2)

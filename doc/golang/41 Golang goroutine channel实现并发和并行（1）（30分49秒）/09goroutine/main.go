@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"sync"
 )
-package main
+
 var wg sync.WaitGroup
+
 func putNum(intChan chan int) {
 	for i := 2; i < 10; i++ {
 		intChan <- i
@@ -15,7 +16,7 @@ func putNum(intChan chan int) {
 	wg.Done()
 }
 
-//定义一个存放任意数据类型的管道 3个数据
+// 定义一个存放任意数据类型的管道 3个数据
 func main() {
 
 	// allChan := make(chan interface{}, 3)

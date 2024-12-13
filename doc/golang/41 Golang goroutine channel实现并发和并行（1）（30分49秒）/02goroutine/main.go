@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-//主线程退出后所有的协程无论有没有执行完毕都会退出，所以我们在主进程中可以通过WaitGroup等待协程执行完毕
+//主线程退出后所有的协程无论有没有执行完毕都会退出，
+// 所以我们在主进程中可以通过WaitGroup等待协程执行完毕
 var wg sync.WaitGroup
 
 func test1() {

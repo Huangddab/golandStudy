@@ -8,7 +8,7 @@ import (
 
 var wg sync.WaitGroup
 
-//向 intChan放入 1-120000个数
+// 向 intChan放入 1-120000个数
 func putNum(intChan chan int) {
 	for i := 2; i < 120000; i++ {
 		intChan <- i
@@ -41,7 +41,7 @@ func primeNum(intChan chan int, primeChan chan int, exitChan chan bool) {
 	wg.Done()
 }
 
-//printPrime打印素数的方法
+// printPrime打印素数的方法
 func printPrime(primeChan chan int) {
 	// for v := range primeChan {
 	// 	fmt.Println(v)
@@ -50,8 +50,7 @@ func printPrime(primeChan chan int) {
 }
 
 func main() {
-
-	start := time.Now().Unix()
+	start := time.Now().UnixMilli()
 
 	intChan := make(chan int, 1000)
 	primeChan := make(chan int, 50000)
@@ -66,25 +65,23 @@ func main() {
 		wg.Add(1)
 		go primeNum(intChan, primeChan, exitChan)
 	}
-
-	//打印素数的协程
-	wg.Add(1)
-	go printPrime(primeChan)
-
-	//判断exitChan是否存满值
+	// 关闭primeChan的协程
 	wg.Add(1)
 	go func() {
 		for i := 0; i < 16; i++ {
 			<-exitChan
 		}
-		//关闭primeChan
 		close(primeChan)
 		wg.Done()
 	}()
 
+	//打印素数的协程
+	wg.Add(1)
+	go printPrime(primeChan)
+
 	wg.Wait()
 
-	end := time.Now().Unix()
+	end := time.Now().UnixMilli()
 	fmt.Println("执行完毕....", end-start, "毫秒")
 
 }

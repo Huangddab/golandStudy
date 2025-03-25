@@ -1,0 +1,18 @@
+# 应用配置文件
+version: 20241224
+
+# 日志配置
+logger:
+  level: 6
+  showCaller: true
+
+# 数据库配置
+database:
+  url: mongodb://127.0.0.1:27017
+  dbname: my_database
+  collection: my_collection
+  limit: 50
+
+# API 服务地址
+api:
+  url: 0.0.0.0:8080

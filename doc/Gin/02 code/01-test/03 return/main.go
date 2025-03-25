@@ -39,7 +39,7 @@ func main() {
 		msg.Age = 18
 		c.JSON(http.StatusOK, msg)
 	})
-	// curl -X GET "http://localhost:8080/moreJSON
+	// curl -X GET "http://localhost:8080/moreJSON	
 	// {"user":"IT 营学院","Message":"Hello world!","Age":18}
 
 	r.GET("/jsonp", func(c *gin.Context) {

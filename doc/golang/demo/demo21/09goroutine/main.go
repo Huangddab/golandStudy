@@ -15,7 +15,7 @@ func putNum(intChan chan int) {
 	wg.Done()
 }
 //定义一个存放任意数据类型的管道 3个数据
-func main() {
+// func main() {
 
 	// allChan := make(chan interface{}, 3)
 
@@ -37,8 +37,8 @@ func main() {
 	// a := newCat.(Cat)
 	// fmt.Printf("newCat.Name=%v", a.Name)
 
-	var intChan = make(chan int, 1000)
-	wg.Add(1)
-	go putNum()
-	wg.Wait()()
-}
+// 	var intChan = make(chan int, 1000)
+// 	wg.Add(1)
+// 	go putNum()
+// 	wg.Wait()()
+// }

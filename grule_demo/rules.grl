@@ -1,0 +1,20 @@
+
+// rule <name> <description> [salience <priority>]
+rule CheckValues "Check the default values" salience 10 {
+    when 
+        MF.IntAttribute > 100 && MF.StringAttribute == "Some string value"
+    then
+        MF.WhatToSay = MF.GetWhatToSay("Alarm");
+        MF.IntAttribute = 23456;
+        Retract("CheckValues"); // 排除
+        Log("rule success");
+}
+
+rule CheckValue2 "Check the default values 2" salience 9 {
+    when 
+        MF.FloatAttribute > 2.0
+    then
+        MF.WhatToSay = MF.GetWhatToSay("Not Alarm");
+        Complete(); // 结束规则
+        Log("rule success");
+}

@@ -1,0 +1,14 @@
+rule HighTemperature "温度过高报警" salience 10 {
+
+    when
+        Telemetry.Temperature > 60
+
+    then
+        Alarm.DeviceId = Telemetry.DeviceId;
+        Alarm.Type = "Temperature";
+        Alarm.Level = "HIGH";
+        Alarm.Message = "温度超过60℃";
+        Retract("HighTemperature");
+        Log("触发温度报警");
+
+}

@@ -1,0 +1,14 @@
+rule GasLeak "气体泄漏" salience 20 {
+
+    when
+        Telemetry.Gas > 50
+
+    then
+        Alarm.DeviceId = Telemetry.DeviceId;
+        Alarm.Type = "Gas";
+        Alarm.Level = "CRITICAL";
+        Alarm.Message = "气体浓度过高";
+        Retract("GasLeak");
+        Log("气体报警");
+
+}

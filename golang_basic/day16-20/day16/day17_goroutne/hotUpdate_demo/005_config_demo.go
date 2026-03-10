@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 /**
@@ -20,13 +21,34 @@ type ConfigManager struct {
 	rwmu   sync.RWMutex
 }
 
-// 读操作
+// 创建配置管理器
+func NewConfigManager() *ConfigManager {
+	return &ConfigManager{
+		config: map[string]interface{}{
+			"app_name":    "MyApp",
+			"max_workers": 10,
+			"debug_mode":  false,
+			"timeout":     30,
+		},
+	}
+}
+
+// 获取一个配置
+func (cm *ConfigManager) GetConfig(key string) (interface{}, bool) {
+	cm.rwmu.RLock()
+	defer cm.rwmu.RUnlock()
+
+	value, exists := cm.config[key]
+	return value, exists
+}
+
+// 获取所有配置
 func (cm *ConfigManager) GetAllConfig(key string) map[string]interface{} {
 	cm.rwmu.RLock()
 	defer cm.rwmu.RUnlock()
 
 	result := make(map[string]interface{})
-	for k, v := range result {
+	for k, v := range cm.config {
 		result[k] = v
 	}
 	return result
@@ -66,32 +88,32 @@ func (cm *ConfigManager) BatchUpdateConfigs(updates map[string]interface{}) {
 6. 更新完成，释放写锁
 7. 等待的读操作获得读锁，读取到新配置
 */
-// func main() {
-// 	configMgr := NewConfigManager()
-// 	var wg sync.WaitGroup
+func main() {
+	configMgr := NewConfigManager()
+	var wg sync.WaitGroup
 
-// 	// 模拟5个服务并发读取配置
-// 	for i := 1; i <= 5; i++ {
-// 		wg.Add(1)
-// 		go func(serviceID int) {
-// 			defer wg.Done()
-// 			for j := 0; j < 3; j++ {
-// 				time.Sleep(time.Duration(serviceID*100) * time.Millisecond)
-// 				if value, ok := configMgr.GetConfig("max_workers"); ok {
-// 					fmt.Printf("服务%d读取配置: max_workers = %v\n",
-// 						serviceID, value)
-// 				}
-// 			}
-// 		}(i)
-// 	}
+	// 模拟5个服务并发读取配置
+	for i := 1; i <= 5; i++ {
+		wg.Add(1)
+		go func(serviceID int) {
+			defer wg.Done()
+			for j := 0; j < 3; j++ {
+				time.Sleep(time.Duration(serviceID*100) * time.Millisecond)
+				if value, ok := configMgr.GetConfig("max_workers"); ok {
+					fmt.Printf("服务%d读取配置: max_workers = %v\n",
+						serviceID, value)
+				}
+			}
+		}(i)
+	}
 
-// 	// 模拟配置热更新（在后台进行）
-// 	wg.Add(1)
-// 	go func() {
-// 		defer wg.Done()
-// 		time.Sleep(200 * time.Millisecond)        // 等待一会儿
-// 		configMgr.UpdateConfig("max_workers", 20) // 更新配置
-// 	}()
+	// 模拟配置热更新（在后台进行）
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		time.Sleep(200 * time.Millisecond)        // 等待一会儿
+		configMgr.UpdateConfig("max_workers", 20) // 更新配置
+	}()
 
-// 	wg.Wait()
-// }
+	wg.Wait()
+}

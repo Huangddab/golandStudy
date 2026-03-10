@@ -1,0 +1,15 @@
+rule GiveDiscountToVIP "为VIP用户提供10%折扣" {
+    when
+        Purchase.UserLevel == "VIP" && Purchase.Amount >= 500 && Purchase.Discount <= 0 // 仅在未打折时触发一次
+    then
+        Purchase.Discount = Purchase.Amount * 0.10;
+        Log("为VIP用户应用了10%的折扣");
+}
+
+rule GiveSmallDiscount "为普通用户提供小额折扣" {
+    when
+        Purchase.UserLevel == "Normal" && Purchase.Amount >= 1000 && Purchase.Discount <= 0 // 仅在未打折时触发一次
+    then
+        Purchase.Discount = Purchase.Amount * 0.05;
+        Log("为普通用户应用了5%的折扣");
+}
